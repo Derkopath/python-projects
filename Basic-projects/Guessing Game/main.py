@@ -1,6 +1,7 @@
 from functions import *
+from art import logo
 
-print("Welcome to the Number Guessing Game!")
+print(logo)
 print("I'm thinking of a number between 1 and 100.")
 
 attempts = 0
