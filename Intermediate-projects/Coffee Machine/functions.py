@@ -25,7 +25,7 @@ def coffee_choice(choose):
     elif choose == 'report':
         return f"Water: {resources['water']}ml \n" \
                f"Milk: {resources['milk']}ml \n" \
-               f"Coffee: {resources['water']}ml \n" \
+               f"Coffee: {resources['water']}g \n" \
                f"Money: ${resources['money']}"
     else:
         return "Only choose between 'espresso', 'latte' or 'cappuccino'."
