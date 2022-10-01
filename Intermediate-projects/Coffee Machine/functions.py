@@ -2,22 +2,33 @@ from machine_resources import MENU, resources
 
 
 def coffee_choice(choose):
+
     if choose == 'espresso':
-        water = MENU['espresso']['ingredients']['water']
-        coffee = MENU['espresso']['ingredients']['coffee']
-        """cost = MENU['espresso']['cost']"""
+
+        water = MENU[choose]['ingredients']['water']
+        coffee = MENU[choose]['ingredients']['coffee']
+
         return coffee_maker(water, coffee)
-    elif choose == 'late':
-        return 'late'
+
+    elif choose == 'latte':
+        water = MENU[choose]['ingredients']['water']
+        coffee = MENU[choose]['ingredients']['coffee']
+        milk = MENU[choose]['ingredients']['milk']
+
+        return coffee_maker(water, coffee, milk)
     elif choose == 'cappuccino':
-        return 'cappuccino'
+        water = MENU[choose]['ingredients']['water']
+        coffee = MENU[choose]['ingredients']['coffee']
+        milk = MENU[choose]['ingredients']['milk']
+
+        return coffee_maker(water, coffee, milk)
     elif choose == 'report':
         return f"Water: {resources['water']}ml \n" \
                f"Milk: {resources['milk']}ml \n" \
                f"Coffee: {resources['water']}ml \n" \
-               f"Money: $0"
+               f"Money: ${resources['money']}"
     else:
-        return "Only choose between 'espresso', 'late' or 'cappuccino'."
+        return "Only choose between 'espresso', 'latte' or 'cappuccino'."
 
 
 def coffee_maker(water, coffee, milk=0):
@@ -38,6 +49,10 @@ def coffee_maker(water, coffee, milk=0):
         return "Sorry, something's wrong. Money refunded."
 
 
+def insert_coin(quarters, dimes, nickles, pennies, choose):
+    return total_coins_change(quarters, dimes, nickles, pennies, choose)
+
+
 def coins_change(coin, units):
     if coin == "quarters":
         return units * 0.25
@@ -49,9 +64,16 @@ def coins_change(coin, units):
         return units * 0.01
 
 
-def total_coins_change(quarters, dimes, nickles, pennies):
+def total_coins_change(quarters, dimes, nickles, pennies, coffee_choose):
 
-    total = quarters + dimes + nickles + pennies
+    coins = {"quarters": quarters, "dimes": dimes, "nickles": nickles, "pennies": pennies}
+    total = 0
+    coffee_price = MENU[coffee_choose]['cost']
 
-    return total
+    for coin in coins:
+        total += coins_change(coin, coins[coin])
 
+    if coffee_price > total:
+        return "Sorry, that's not enough money. Money refunded."
+
+    return f"Here is ${total} in change."
