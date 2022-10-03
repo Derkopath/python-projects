@@ -1,15 +1,20 @@
 from machine_resources import MENU, resources
 
+"""
+Condition:
+    - If the user writes another option, this function returns an "error" message.
+    - Else if the user writes ('espresso', 'latte' or 'capuccino') the machine returns the coffee if everything is ok.
+    - Or the machine will return how many resources left (with 'report' option).
+"""
+
 
 def coffee_choice(choose):
-
     if choose == 'espresso':
 
         water = MENU[choose]['ingredients']['water']
         coffee = MENU[choose]['ingredients']['coffee']
 
         return coffee_maker(water, coffee)
-
     elif choose == 'latte':
         water = MENU[choose]['ingredients']['water']
         coffee = MENU[choose]['ingredients']['coffee']
@@ -31,8 +36,14 @@ def coffee_choice(choose):
         return "Only choose between 'espresso', 'latte' or 'cappuccino'."
 
 
-def coffee_maker(water, coffee, milk=0):
+"""
+Condition:
+    - If 'resources' has enough ingredients this function will return the coffee made.
+    - Else if one of those ingredients is not enough, return the reason why the machine cannot make coffee.
+"""
 
+
+def coffee_maker(water, coffee, milk=0):
     machine_water = resources["water"]
     machine_milk = resources["milk"]
     machine_coffee = resources["coffee"]
@@ -49,9 +60,7 @@ def coffee_maker(water, coffee, milk=0):
         return "Sorry, something's wrong. Money refunded."
 
 
-def insert_coin(quarters, dimes, nickles, pennies, choose):
-    return total_coins_change(quarters, dimes, nickles, pennies, choose)
-
+# Make a change of the coin multiply 'units' with the real value of that coin.
 
 def coins_change(coin, units):
     if coin == "quarters":
@@ -64,8 +73,17 @@ def coins_change(coin, units):
         return units * 0.01
 
 
-def total_coins_change(quarters, dimes, nickles, pennies, coffee_choose):
+"""
+args:
+    - 'coins': saves the type of coin and the value.
+    - 'total': returns the addition of the values inside the dictionary.
 
+Condition:
+    - If 'total' is smaller than the price of the coffee (coffee_price), this function returns an "error" message.
+"""
+
+
+def total_coins_change(quarters, dimes, nickles, pennies, coffee_choose):
     coins = {"quarters": quarters, "dimes": dimes, "nickles": nickles, "pennies": pennies}
     total = 0
     coffee_price = MENU[coffee_choose]['cost']
